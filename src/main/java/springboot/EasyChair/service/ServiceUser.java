@@ -35,6 +35,7 @@ public class ServiceUser implements IserviceUser {
 		User user = new User();
         user.setName(userDto.getFirstName() + " " + userDto.getLastName());
         user.setEmail(userDto.getEmail());
+        user.setPhoneNumber(userDto.getPhoneNumber());
         user.setIsActive(false);
         user.setDeletedAt(null);
         // encrypt the password using spring security
