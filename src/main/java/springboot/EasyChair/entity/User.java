@@ -3,7 +3,9 @@ package springboot.EasyChair.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.*;
 
@@ -42,12 +44,11 @@ public class User {
     @Column(nullable = true)
     private Date deletedAt;
 
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = {@JoinColumn(name = "USER_ID", referencedColumnName = "ID")},
-            inverseJoinColumns = {@JoinColumn(name = "ROLE_ID", referencedColumnName = "ID")})
-    private List<Role> roles = new ArrayList<>();
+    @OneToMany(mappedBy = "user")
+    private Set<Role> roles = new HashSet<>();
+    
+    @OneToMany(mappedBy = "organizer")
+    private Set<Conference> organizedConferences = new HashSet<>();
 
 		
 }

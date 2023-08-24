@@ -1,10 +1,8 @@
 package springboot.EasyChair.entity;
 
 
-import java.util.List;
 
 import javax.persistence.*;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,6 +23,11 @@ public class Role {
 	    @Column(nullable=false, unique=true)
 	    private String name;
 
-	    @ManyToMany(mappedBy="roles")
-	    private List<User> users;
+	    @ManyToOne
+	    @JoinColumn(name = "user_id") // Nom de la colonne de clé étrangère dans la table Role
+	    private User user; // Référence à l'entité User
+	    
+	    @ManyToOne
+	    @JoinColumn(name = "conference_id") // Nom de la colonne de clé étrangère dans la table Role
+	    private Conference conference; // Référence à l'entité Conference
 }
