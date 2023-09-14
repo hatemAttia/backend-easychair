@@ -1,10 +1,8 @@
 package springboot.EasyChair.entity;
 
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -47,8 +45,8 @@ public class User {
     @OneToMany(mappedBy = "user")
     private Set<Role> roles = new HashSet<>();
     
-    @OneToMany(mappedBy = "organizer")
-    private Set<Conference> organizedConferences = new HashSet<>();
+    //@OneToMany(mappedBy = "organizer")
+    //private Set<Conference> organizedConferences = new HashSet<>();
 
 		
 }

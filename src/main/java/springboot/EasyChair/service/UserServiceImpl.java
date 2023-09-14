@@ -14,13 +14,13 @@ import springboot.EasyChair.repository.RoleRepository;
 import springboot.EasyChair.repository.UserRepository;
 
 @Service
-public class ServiceUser implements IserviceUser {
+public class UserServiceImpl implements UserService {
     
     private UserRepository userRepository;
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     
-    public ServiceUser(UserRepository userRepository,
+    public UserServiceImpl(UserRepository userRepository,
                        RoleRepository roleRepository,
                        PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -38,11 +38,6 @@ public class ServiceUser implements IserviceUser {
         user.setDeletedAt(null);
         // encrypt the password using spring security
         user.setPassword(passwordEncoder.encode(userDto.getPassword()));
-        Role role = roleRepository.findByName("ROLE_ADMIN");
-        if (role == null) {
-            role = checkRoleExist();
-        }
-        user.setRoles(Collections.singleton(role)); // Use singleton for a single role
         userRepository.save(user);
     }
 
@@ -52,27 +47,13 @@ public class ServiceUser implements IserviceUser {
     }
 
     @Override
-    public List<UserDto> findAllUsers() {
-        List<User> users = userRepository.findAll();
-        return users.stream()
-                .map((user) -> mapToUserDto(user))
-                .collect(Collectors.toList());
+    public List<User> findAllUsers() {
+        return userRepository.findAll();
     }
 
-    private UserDto mapToUserDto(User user) {
-        UserDto userDto = new UserDto();
-        String[] str = user.getName().split(" ");
-        userDto.setFirstName(str[0]);
-        userDto.setLastName(str[1]);
-        userDto.setEmail(user.getEmail());
-        userDto.setPhoneNumber(user.getPhoneNumber());
-        userDto.setPassword(user.getPassword());
-        return userDto;
-    }
+   
+	
+	
 
-    private Role checkRoleExist() {
-        Role role = new Role();
-        role.setName("ROLE_ADMIN");
-        return roleRepository.save(role);
-    }
+   
 }
