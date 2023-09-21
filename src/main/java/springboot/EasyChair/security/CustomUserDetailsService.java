@@ -3,6 +3,7 @@ package springboot.EasyChair.security;
 import java.util.Collection;
 import java.util.stream.Collectors;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -19,13 +20,10 @@ import springboot.EasyChair.repository.UserRepository;
 public class CustomUserDetailsService implements UserDetailsService{
 	
 	
-	 private UserRepository userRepository;
-
-	    public CustomUserDetailsService(UserRepository userRepository) {
-	        this.userRepository = userRepository;
-	    }
-
-	    @Override
+	@Autowired 
+		private UserRepository userRepository; 
+	    
+	@Override
 	    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 	        User user = userRepository.findByEmail(email);
 
@@ -34,7 +32,7 @@ public class CustomUserDetailsService implements UserDetailsService{
 	                    user.getPassword(),
 	                    mapRolesToAuthorities(user.getRoles()));
 	        }else{
-	            throw new UsernameNotFoundException("Invalid username or password.");
+	            throw new UsernameNotFoundException("User not found with email : " + email);
 	        }
 	    }
 

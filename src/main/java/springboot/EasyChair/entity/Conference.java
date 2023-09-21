@@ -2,8 +2,6 @@ package springboot.EasyChair.entity;
 
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.*;
 
@@ -28,7 +26,7 @@ public class Conference {
     private String title;
     
     @Column(nullable = false)
-    private String descreption;
+    private String description;
 
     @Column(nullable = false)
     private Date startDate;
@@ -36,11 +34,11 @@ public class Conference {
     @Column(nullable = false)
     private Date endDate;
     
-    @OneToMany(mappedBy = "conference")
-    private Set<Role> role = new HashSet<>();
+    //@OneToMany(mappedBy = "conference")
+    //private Set<Role> role = new HashSet<>();
     
-    @ManyToOne
-    @JoinColumn(name = "organizer_id") // Nom de la colonne de clé étrangère dans la table Conference
+   @ManyToOne
+    //@JoinColumn(name = "organizer_id") // Nom de la colonne de clé étrangère dans la table Conference
     private User organizer; // Référence à l'entité User
 
 		

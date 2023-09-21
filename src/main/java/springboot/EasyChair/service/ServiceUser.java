@@ -27,7 +27,41 @@ public class ServiceUser implements IserviceUser {
         this.roleRepository = roleRepository;
         this.passwordEncoder = passwordEncoder;
     }
+    @Override
+    public User getUserById(Long id) {
+        return userRepository.findById(id).orElse(null);
+    }
 
+    @Override
+    public User updateUser(Long id, UserDto updatedUserDto) {
+        User existingUser = userRepository.findById(id).orElse(null);
+        if (existingUser != null) {
+            existingUser.setName(updatedUserDto.getFirstName() + " " + updatedUserDto.getLastName());
+            existingUser.setEmail(updatedUserDto.getEmail());
+            existingUser.setPhoneNumber(updatedUserDto.getPhoneNumber());
+            // ... Mettez à jour d'autres champs si nécessaire
+            return userRepository.save(existingUser);
+        }
+        return null; // Gérer le cas où l'utilisateur n'existe pas
+    }
+    @Override
+    public User activateUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setIsActive(true);
+            return userRepository.save(user);
+        }
+        return null; // Gérer le cas où l'utilisateur n'existe pas
+    }
+    @Override
+    public User desactivateUser(Long id) {
+        User user = userRepository.findById(id).orElse(null);
+        if (user != null) {
+            user.setIsActive(false);
+            return userRepository.save(user);
+        }
+        return null; // Gérer le cas où l'utilisateur n'existe pas
+    }
     @Override
     public void saveUser(UserDto userDto) {
         User user = new User();
@@ -75,4 +109,16 @@ public class ServiceUser implements IserviceUser {
         role.setName("ROLE_ADMIN");
         return roleRepository.save(role);
     }
+
+	
+
+	/*@Override
+	public User getUserById(Long id) {
+		return userRepository.getById(id);
+	}*/
+
+	
+	
+
+   
 }
