@@ -1,10 +1,13 @@
 package springboot.EasyChair.dto;
 
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import springboot.EasyChair.Enum.PaperStatus;
 
 
 @Data
@@ -27,7 +30,8 @@ public class PaperCreateDto {
     private String docPdf;
 
     @NotEmpty(message = "Le statut ne peut pas être vide")
-    private String status;
+    @Enumerated(EnumType.STRING) 
+    private PaperStatus status;
     
     private Long authorId; 
     

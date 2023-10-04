@@ -13,6 +13,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import springboot.EasyChair.Enum.PaperStatus;
 
 @Data
 @NoArgsConstructor
@@ -30,7 +31,8 @@ public class Paper {
     private String resume;
     private String keywords;
     private String docPdf;
-    private String status;
+    @Enumerated(EnumType.STRING) 
+    private PaperStatus status; 
     
     @ManyToMany
     @JoinTable(
@@ -43,6 +45,7 @@ public class Paper {
     
     @ManyToOne
     @JoinColumn(name = "conference_id") 
+    @JsonIgnore
     private Conference conference;
 
     
