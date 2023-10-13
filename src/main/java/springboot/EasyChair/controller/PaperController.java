@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import springboot.EasyChair.dto.PaperCreateDto;
 import springboot.EasyChair.dto.UpdatePaperDto;
 import springboot.EasyChair.entity.Paper;
@@ -87,4 +86,12 @@ public class PaperController {
         paperService.deletePaper(id);
         return ResponseEntity.ok("Paper deleted successfully");
     }
+    
+    @GetMapping
+    @ApiOperation("Get all papers")
+    public List<PaperCreateDto> getAllPapers() {
+        return paperService.findAllPapers();
+    }
+    
+    
 }

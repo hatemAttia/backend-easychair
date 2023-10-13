@@ -22,6 +22,8 @@ public interface PaperService {
     List<Paper> findByKeywordsContaining(String keyword);
 
 	Paper findPaperById(long id);
+	
+	List<PaperCreateDto> findAllPapers();
 
    
     

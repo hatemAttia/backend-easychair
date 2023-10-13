@@ -57,7 +57,9 @@ public class ConferenceServiceImpl implements ConferenceService {
 	    conferenceDto.setDescription(conference.getDescription());
 	    conferenceDto.setStartDate(conference.getStartDate());
 	    conferenceDto.setEndDate(conference.getEndDate());
-	   // User organizer = conference.getOrganizer();
+	    conferenceDto.setOrganizerId(conference.getOrganizer().getId());
+	    
+
 
 	    return conferenceDto;
 	    }

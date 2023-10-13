@@ -3,6 +3,7 @@ package springboot.EasyChair.service;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,23 +37,23 @@ public class PaperServiceImpl implements PaperService  {
 	    newPaper.setKeywords(paperDto.getKeywords());
 	    newPaper.setDocPdf(paperDto.getDocPdf());
 	    newPaper.setStatus(paperDto.getStatus());
-	    
-	    User author = userRepository.getUserById(paperDto.getAuthorId());
-	    
-	    Conference conference = conferenceRepository.findConferenceById(paperDto.getConferenceId());
-	    
-	    if (author == null || conference == null) {
-	        return null; 
-	    }
-	    
+
 	    Set<User> authorsSet = new HashSet<>();
-	    authorsSet.add(author);
 	    newPaper.setAuthors(authorsSet);
-	    
+
+	    User author = new User();
+	    author.setId(paperDto.getAuthorId());
+
+	    Conference conference = new Conference();
+	    conference.setId(paperDto.getConferenceId());
+
+	    newPaper.setAuthors(authorsSet);
 	    newPaper.setConference(conference);
 
 	    return paperRepository.save(newPaper);
 	}
+
+
 
 	@Override
 	public Paper updatePaper(Long id, UpdatePaperDto paperUpdateDto) {
@@ -96,8 +97,31 @@ public class PaperServiceImpl implements PaperService  {
 
 	@Override
 	public Paper findPaperById(long id) {
-		return paperRepository.getById(id);
+		return paperRepository.findPaperById(id);
 	}
+
+	@Override
+	public List<PaperCreateDto> findAllPapers() {
+	    List<Paper> papers = paperRepository.findAll();
+	    return papers.stream()
+	            .map((paper) -> mapToPaperCreateDto(paper))
+	            .collect(Collectors.toList());
+	}
+
+	private PaperCreateDto mapToPaperCreateDto(Paper paper) {
+	    PaperCreateDto paperCreateDto = new PaperCreateDto();
+	    paperCreateDto.setTitle(paper.getTitle());
+	    paperCreateDto.setKeywords(paper.getKeywords());
+	    paperCreateDto.setResume(paper.getResume());
+	    paperCreateDto.setStatus(paper.getStatus());
+	    paperCreateDto.setDocPdf(paper.getDocPdf());
+	    
+	    
+	    paperCreateDto.setConferenceId(paper.getConference().getId());
+
+	    return paperCreateDto;
+	}
+
 
 	
     
